@@ -6,6 +6,7 @@
     
     --color-primary: #7209B7;
     --color-primary-50: rgba(114, 9, 183, 0.5);
+    --color-primary-dark: #550788;
 
     --color-black-100: #353535;
     --color-black-75: #676767;
@@ -14,8 +15,10 @@
 
     --color-white: #FFFFFF;
 
-    --color-background-primary: #FAFAFA;
-    --color-background-secondary: #F7F7F8;
+    --color-white-primary: #FAFAFA;
+    --color-white-secondary: #F7F7F8;
+
+    --color-red-primary: #CB0000;
 
     --text-button: 15px;
     --text-display: 32px;

@@ -3,6 +3,7 @@ import { UIElements } from "@/data/UIElements";
 import CanvasEditorLogo from "@/assets/canvas-editor-logo.svg";
 import ResetIcon from "@/assets/reset-icon.svg";
 import PrimaryButton from "./components/atoms/PrimaryButton";
+import TextArea from "./components/organisms/TextArea";
 
 export default function App() {
     return (
@@ -10,7 +11,7 @@ export default function App() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
                     <div className="w-full bg-black-50 flex items-center justify-center" style={{ height: 948 }}>
-                        
+                        <TextArea />
                     </div>
                 </div>
                 <div>

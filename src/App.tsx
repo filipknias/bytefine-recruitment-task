@@ -6,23 +6,53 @@ import PrimaryButton from "./components/atoms/PrimaryButton";
 import TextArea from "./components/organisms/TextArea";
 import { useCanvasStore } from "./store/useCanvasStore";
 import { CANVAS_HEIGHT, sizes } from "./data/canvas";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
+import { ElementType } from "@/types/store";
+import ImageElement from "./components/organisms/ImageElement";
 
 export default function App() {
-    const { addTextElement, elements } = useCanvasStore();
-    const textElements = elements.filter((element) => element.type === "text-element");
+    const { addTextElement, elements, addImageElement } = useCanvasStore();
     const canvasRef = useRef<HTMLDivElement|null>(null);
+    const imageInputRef = useRef<HTMLInputElement>(null);
 
-    const addElement = () => {
-        if (!canvasRef.current) return;
-
-        const startingPoint = {
+    const textElements = useMemo(() => {
+        return elements.filter((element) => element.type === "text-element")
+    }, [elements]);
+    const imageElements = useMemo(() => {
+        return elements.filter((element) => element.type === "image-element" && element.options.image)
+    }, [elements]);
+    
+    const startingPoint = useMemo(() => {
+        if (!canvasRef.current) return { x: 0, y: 0 };
+        return {
             x: (canvasRef.current.offsetWidth / 2) - (sizes.textarea.width / 2),
             y: (canvasRef.current.offsetHeight / 2) - (sizes.textarea.height / 2),
-        };
+        }
+    }, [canvasRef.current]);
 
-        addTextElement(startingPoint, sizes.textarea);
-    }
+    const addElement = (type: ElementType) => {
+        if (!canvasRef.current) return;
+
+        switch (type) {
+            case "text-element": {
+                addTextElement(startingPoint, sizes.textarea);
+                break;
+            }
+            case "image-element": {
+                if (!imageInputRef.current) return;
+                imageInputRef.current.click();
+                break;
+            }
+        }        
+    };
+
+    const uploadAndAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const imageFile = e.target.files[0];
+            addImageElement(imageFile, startingPoint, sizes.image);
+            e.target.value = '';
+        }
+    };
 
     return (
         <div className="container mx-auto py-12 px-4">
@@ -35,6 +65,15 @@ export default function App() {
                                 id={element.id}
                                 position={element.position}
                                 size={element.size}
+                            />
+                        ))}
+                        {imageElements.map((element) => (
+                            <ImageElement 
+                                key={element.id} 
+                                id={element.id}
+                                position={element.position}
+                                size={element.size}
+                                image={element.options.image!}
                             />
                         ))}
                     </div>
@@ -61,9 +100,16 @@ export default function App() {
                                         key={element.label}
                                         icon={element.icon} 
                                         text={element.label}
-                                        onClick={addElement}
+                                        onClick={() => addElement(element.type)}
                                     />
                                 ))}
+                                <input
+                                    ref={imageInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={uploadAndAddImage}
+                                />
                             </div>
                         </div>
                         <div className="flex justify-end">

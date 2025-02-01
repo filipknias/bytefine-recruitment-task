@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 import { CanvasElement } from '@/types/store';
 import { Position, Size } from '@/types/shared';
+import { sizes } from '@/data/canvas';
 
 type CanvasStore = {
     elements: CanvasElement[];
@@ -9,6 +10,7 @@ type CanvasStore = {
     addTextElement: (position?: Position, size?: Size) => void;
     updateElementSize: (id: string, size: Size) => void;
     updateElementPosition: (id: string, position: Position) => void;
+    addImageElement: (image: File, position?: Position, size?: Size) => void;
     setActiveElement: (id: string) => void;
     clearActiveElementId: () => void;
     deleteElement: (id: string) => void;
@@ -27,7 +29,7 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
                     id: elementId,
                     type: "text-element",
                     position: position || { x: 0, y: 0 },
-                    size: size || { width: 200, height: 100 },
+                    size: size || { width: sizes.textarea.width, height: sizes.textarea.height },
                     options: {},
                 }
             ],
@@ -62,6 +64,23 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
 
                 return element;
             })
+        }));
+    },
+
+    addImageElement: (image: File, position?: Position, size?: Size) => {
+        const elementId = nanoid();
+        set((state) => ({
+            elements: [
+                ...state.elements,
+                {
+                    id: elementId,
+                    type: "image-element",
+                    position: position || { x: 0, y: 0 },
+                    size: size || { width: sizes.image.width, height: sizes.image.height },
+                    options: { image },
+                }
+            ],
+            activeElementId: elementId, 
         }));
     },
 

@@ -4,14 +4,39 @@ import CanvasEditorLogo from "@/assets/canvas-editor-logo.svg";
 import ResetIcon from "@/assets/reset-icon.svg";
 import PrimaryButton from "./components/atoms/PrimaryButton";
 import TextArea from "./components/organisms/TextArea";
+import { useCanvasStore } from "./store/useCanvasStore";
+import { CANVAS_HEIGHT, sizes } from "./data/canvas";
+import { useRef } from "react";
 
 export default function App() {
+    const { addTextElement, elements } = useCanvasStore();
+    const textElements = elements.filter((element) => element.type === "text-element");
+    const canvasRef = useRef<HTMLDivElement|null>(null);
+
+    const addElement = () => {
+        if (!canvasRef.current) return;
+
+        const startingPoint = {
+            x: (canvasRef.current.offsetWidth / 2) - (sizes.textarea.width / 2),
+            y: (canvasRef.current.offsetHeight / 2) - (sizes.textarea.height / 2),
+        };
+
+        addTextElement(startingPoint, sizes.textarea);
+    }
+
     return (
         <div className="container mx-auto py-12 px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <div className="w-full bg-black-50 flex items-center justify-center" style={{ height: 948 }}>
-                        <TextArea />
+                    <div className="w-full bg-black-50 flex items-center justify-center" style={{ height: CANVAS_HEIGHT }} ref={canvasRef}>
+                        {textElements.map((element) => (
+                            <TextArea 
+                                key={element.id} 
+                                id={element.id}
+                                position={element.position}
+                                size={element.size}
+                            />
+                        ))}
                     </div>
                 </div>
                 <div>
@@ -35,7 +60,8 @@ export default function App() {
                                     <ActionButton 
                                         key={element.label}
                                         icon={element.icon} 
-                                        text={element.label} 
+                                        text={element.label}
+                                        onClick={addElement}
                                     />
                                 ))}
                             </div>

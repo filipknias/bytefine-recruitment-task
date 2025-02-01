@@ -6,11 +6,13 @@ import { sizes } from '@/data/canvas';
 
 type CanvasStore = {
     elements: CanvasElement[];
+    background: File|null;
     activeElementId: string | null;
     addTextElement: (position?: Position, size?: Size) => void;
     updateElementSize: (id: string, size: Size) => void;
     updateElementPosition: (id: string, position: Position) => void;
     addImageElement: (image: File, position?: Position, size?: Size) => void;
+    setBackground: (background: File) => void;
     setActiveElement: (id: string) => void;
     clearActiveElementId: () => void;
     deleteElement: (id: string) => void;
@@ -18,6 +20,7 @@ type CanvasStore = {
 
 export const useCanvasStore = create<CanvasStore>((set) => ({
     elements: [],
+    background: null,
     activeElementId: null,
 
     addTextElement: (position?: Position, size?: Size) => {
@@ -82,6 +85,10 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
             ],
             activeElementId: elementId, 
         }));
+    },
+
+    setBackground: (background: File) => {
+        set({ background });
     },
 
     deleteElement: (id: string) => {

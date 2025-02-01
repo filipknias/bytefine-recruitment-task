@@ -11,9 +11,10 @@ import { ElementType } from "@/types/store";
 import ImageElement from "./components/organisms/ImageElement";
 
 export default function App() {
-    const { addTextElement, elements, addImageElement } = useCanvasStore();
+    const { addTextElement, elements, addImageElement, setBackground, background } = useCanvasStore();
     const canvasRef = useRef<HTMLDivElement|null>(null);
     const imageInputRef = useRef<HTMLInputElement>(null);
+    const backgroundInputRef = useRef<HTMLInputElement>(null);
 
     const textElements = useMemo(() => {
         return elements.filter((element) => element.type === "text-element")
@@ -43,6 +44,11 @@ export default function App() {
                 imageInputRef.current.click();
                 break;
             }
+            case "background-element": {
+                if (!backgroundInputRef.current) return;
+                backgroundInputRef.current.click();
+                break;
+            }
         }        
     };
 
@@ -54,11 +60,20 @@ export default function App() {
         }
     };
 
+    const uploadAndSetBackground = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files[0]) {
+            const backgroundFile = e.target.files[0];
+            setBackground(backgroundFile);
+            e.target.value = '';
+        }
+    };
+
     return (
         <div className="container mx-auto py-12 px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <div>
-                    <div className="w-full bg-black-50 flex items-center justify-center" style={{ height: CANVAS_HEIGHT }} ref={canvasRef}>
+                    <div className="w-full bg-black-50 flex items-center justify-center relative" style={{ height: CANVAS_HEIGHT }} ref={canvasRef}>
+                        {background && <img className="absolute inset-0 w-full h-full object-cover" src={URL.createObjectURL(background)} alt="background-image" />}
                         {textElements.map((element) => (
                             <TextArea 
                                 key={element.id} 
@@ -109,6 +124,13 @@ export default function App() {
                                     accept="image/*"
                                     className="hidden"
                                     onChange={uploadAndAddImage}
+                                />
+                                <input
+                                    ref={backgroundInputRef}
+                                    type="file"
+                                    accept="image/*"
+                                    className="hidden"
+                                    onChange={uploadAndSetBackground}
                                 />
                             </div>
                         </div>

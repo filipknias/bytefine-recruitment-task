@@ -13,6 +13,7 @@ type CanvasStore = {
     updateElementPosition: (id: string, position: Position) => void;
     addImageElement: (image: File, position?: Position, size?: Size) => void;
     setBackground: (background: File) => void;
+    resetCanvas: () => void;
     setActiveElement: (id: string) => void;
     clearActiveElementId: () => void;
     deleteElement: (id: string) => void;
@@ -89,6 +90,10 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
 
     setBackground: (background: File) => {
         set({ background });
+    },
+
+    resetCanvas: () => {
+        set({ elements: [], background: null, activeElementId: null });
     },
 
     deleteElement: (id: string) => {

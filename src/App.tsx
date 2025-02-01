@@ -1,7 +1,6 @@
 import ActionButton from "@/components/molecules/ActionButton";
 import { UIElements } from "@/data/UIElements";
 import CanvasEditorLogo from "@/assets/canvas-editor-logo.svg";
-import ResetIcon from "@/assets/reset-icon.svg";
 import PrimaryButton from "./components/atoms/PrimaryButton";
 import TextArea from "./components/organisms/TextArea";
 import { useCanvasStore } from "./store/useCanvasStore";
@@ -9,6 +8,7 @@ import { CANVAS_HEIGHT, sizes } from "./data/canvas";
 import { useMemo, useRef } from "react";
 import { ElementType } from "@/types/store";
 import ImageElement from "./components/organisms/ImageElement";
+import ResetModal from "./components/organisms/ResetModal";
 
 export default function App() {
     const { addTextElement, elements, addImageElement, setBackground, background } = useCanvasStore();
@@ -100,10 +100,11 @@ export default function App() {
                                 <img className="h-16 mr-2" src={CanvasEditorLogo} alt="canvas-editor-logo" />
                                 <h2 className="text-black-75 font-bold text-display">CanvasEditor</h2>
                             </div>
-                            <button className="text-red-primary cursor-pointer inline-flex items-center pb-1 border-b border-red-primary">
+                            {/* <button className="text-red-primary cursor-pointer inline-flex items-center pb-1 border-b border-red-primary">
                                 <span className="font-medium text-body mr-1">Reset</span>
                                 <img className="h-6" src={ResetIcon} alt="reset-icon" />
-                            </button>
+                            </button> */}
+                            <ResetModal />
                         </div>
                         <div className="mb-8 bg-white-secondary rounded-lg px-4 py-6">
                             <h3 className="text-black-100 font-bold text-body">Add content</h3>

@@ -9,6 +9,7 @@ import { useMemo, useRef } from "react";
 import { ElementType } from "@/types/store";
 import ImageElement from "./components/organisms/ImageElement";
 import ResetModal from "./components/organisms/ResetModal";
+import html2canvas from "html2canvas";
 
 export default function App() {
     const { addTextElement, elements, addImageElement, setBackground, background } = useCanvasStore();
@@ -68,6 +69,20 @@ export default function App() {
         }
     };
 
+    const exportToPNG = async () => {
+        if (!canvasRef.current) return;
+        const canvas = await html2canvas(canvasRef.current);
+        const imageUrl = canvas.toDataURL();
+
+        const link = document.createElement('a');
+        link.href = imageUrl;
+        link.download = 'poster.png';
+
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    };
+
     return (
         <div className="container mx-auto py-12 px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -100,10 +115,6 @@ export default function App() {
                                 <img className="h-16 mr-2" src={CanvasEditorLogo} alt="canvas-editor-logo" />
                                 <h2 className="text-black-75 font-bold text-display">CanvasEditor</h2>
                             </div>
-                            {/* <button className="text-red-primary cursor-pointer inline-flex items-center pb-1 border-b border-red-primary">
-                                <span className="font-medium text-body mr-1">Reset</span>
-                                <img className="h-6" src={ResetIcon} alt="reset-icon" />
-                            </button> */}
                             <ResetModal />
                         </div>
                         <div className="mb-8 bg-white-secondary rounded-lg px-4 py-6">
@@ -136,7 +147,7 @@ export default function App() {
                             </div>
                         </div>
                         <div className="flex justify-end">
-                            <PrimaryButton>Export to PNG</PrimaryButton>
+                            <PrimaryButton onClick={exportToPNG}>Export to PNG</PrimaryButton>
                         </div>
                     </div>
                 </div>

@@ -1,8 +1,6 @@
-import { canvasTextColors } from "@/data/canvas";
 import { useCanvasStore } from "@/store/useCanvasStore";
 import { ComponentProps, useRef } from "react";
 import { Rnd } from "react-rnd";
-import TextColor from "../atoms/TextColor";
 import MoveIcon from "@/assets/move-icon.svg";
 import TrashIcon from "@/assets/trash-icon.svg";
 import useClickOutiside from "@/hooks/useClickOutside";
@@ -16,14 +14,19 @@ type Props = {
 
 export default function ResizableBox({ options, isActive, id, children }: Props) {
     const wrapperRef = useRef<HTMLDivElement|null>(null);
-    const { setActiveElement, clearActiveElementId, updateElementPosition, updateElementSize, deleteElement, activeElementId } = useCanvasStore();
+    const { 
+        setActiveElement, 
+        clearActiveElementId, 
+        updateElementPosition, 
+        updateElementSize, 
+        deleteElement, 
+        activeElementId,
+    } = useCanvasStore();
 
-    useClickOutiside(wrapperRef, (e) => {
-        const target = e.target as HTMLElement;
-        if (target.classList.contains("drag-trigger") || target.classList.contains("delete-button")) {
-            return;
-        } 
-        clearActiveElementId();
+    useClickOutiside(wrapperRef, () => {
+        if (activeElementId === id) {
+            clearActiveElementId();
+        }
     });
 
     return (
@@ -52,16 +55,6 @@ export default function ResizableBox({ options, isActive, id, children }: Props)
                         <div className="absolute right-0 bottom-0 -mb-3 -mr-3">
                             <button className="w-6 h-6 rounded-full bg-primary border-4 border-white flex items-center justify-center cursor-se-resize"></button>
                         </div>
-                        {/* <div className="absolute left-0 -bottom-8 flex gap-1">
-                            {canvasTextColors.map((color) => (
-                                <TextColor
-                                    key={color}
-                                    color={color} 
-                                    selected={color === textColor} 
-                                    onClick={() => setTextColor(color)} 
-                                />
-                            ))}
-                        </div> */}
                     </>
                 )}
                 {children}

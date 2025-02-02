@@ -7,10 +7,10 @@ type Props = {
     id: string;
     position: Position;
     size: Size;
-    image: File;
+    imageUrl: string;
 }
 
-export default function ImageElement({ id, position, size, image }: Props) {
+export default function ImageElement({ id, position, size, imageUrl }: Props) {
     const { activeElementId } = useCanvasStore();
 
     return (
@@ -29,8 +29,8 @@ export default function ImageElement({ id, position, size, image }: Props) {
         >
             <img 
                 className="w-full h-full object-cover"
-                src={URL.createObjectURL(image)}
-                alt={image.name}
+                src={imageUrl}
+                alt={imageUrl}
             />
         </ResizableBox>
     )

@@ -32,7 +32,7 @@ const Canvas = forwardRef<HTMLDivElement>((_props, ref) => {
                     id={element.id}
                     position={element.position}
                     size={element.size}
-                    image={element.options.image!}
+                    imageUrl={URL.createObjectURL(element.options.image!)}
                 />
             ))}
         </div>

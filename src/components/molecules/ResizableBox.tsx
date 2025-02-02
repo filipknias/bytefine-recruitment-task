@@ -40,7 +40,7 @@ export default function ResizableBox({ options, isActive, id, children }: Props)
                 ref={wrapperRef} 
                 onClick={() => setActiveElement(id)}
             >
-                {activeElementId === id && (
+                {isActive && (
                     <>
                         <div className="absolute left-0 top-0 -ml-5 -mt-5">
                             <button className="w-10 h-10 rounded-full bg-white flex items-center justify-center cursor-pointer drag-trigger">

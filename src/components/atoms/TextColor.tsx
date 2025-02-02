@@ -7,7 +7,7 @@ type Props = {
 export default function TextColor({ selected, color, onClick }: Props) {
   return (
     <button 
-        className={`w-6 h-6 rounded-full border-2 flex items-center justify-center cursor-pointer ${selected ? "border-white" : "border-transparent"}`}
+        className="w-6 h-6 rounded-full border-2 flex items-center justify-center cursor-pointer"
         style={{ borderColor: selected ? "white" : "transparent" }}
         onClick={onClick}
     >

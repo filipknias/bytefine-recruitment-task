@@ -2,42 +2,35 @@ import ActionButton from "@/components/molecules/ActionButton";
 import { UIElements } from "@/data/UIElements";
 import CanvasEditorLogo from "@/assets/canvas-editor-logo.svg";
 import PrimaryButton from "./components/atoms/PrimaryButton";
-import TextArea from "./components/organisms/TextArea";
 import { useCanvasStore } from "./store/useCanvasStore";
-import { CANVAS_HEIGHT, sizes } from "./data/canvas";
-import { useMemo, useRef } from "react";
+import { sizes } from "./data/canvas";
+import { useCallback, useRef } from "react";
 import { ElementType } from "@/types/store";
-import ImageElement from "./components/organisms/ImageElement";
 import ResetModal from "./components/organisms/ResetModal";
 import html2canvas from "html2canvas";
+import { Size } from "./types/shared";
+import Canvas from "./components/organisms/Canvas";
 
 export default function App() {
-    const { addTextElement, elements, addImageElement, setBackground, background } = useCanvasStore();
+    const { addTextElement, addImageElement, setBackground } = useCanvasStore();
     const canvasRef = useRef<HTMLDivElement|null>(null);
-    const imageInputRef = useRef<HTMLInputElement>(null);
-    const backgroundInputRef = useRef<HTMLInputElement>(null);
-
-    const textElements = useMemo(() => {
-        return elements.filter((element) => element.type === "text-element")
-    }, [elements]);
-    const imageElements = useMemo(() => {
-        return elements.filter((element) => element.type === "image-element" && element.options.image)
-    }, [elements]);
+    const imageInputRef = useRef<HTMLInputElement|null>(null);
+    const backgroundInputRef = useRef<HTMLInputElement|null>(null);
     
-    const startingPoint = useMemo(() => {
+    const getStartingPoint = useCallback((sizes: Size) => {
         if (!canvasRef.current) return { x: 0, y: 0 };
         return {
-            x: (canvasRef.current.offsetWidth / 2) - (sizes.textarea.width / 2),
-            y: (canvasRef.current.offsetHeight / 2) - (sizes.textarea.height / 2),
+            x: (canvasRef.current.offsetWidth / 2) - (sizes.width / 2),
+            y: (canvasRef.current.offsetHeight / 2) - (sizes.height / 2),
         }
-    }, [canvasRef.current]);
+    }, [canvasRef.current, sizes]);
 
     const addElement = (type: ElementType) => {
         if (!canvasRef.current) return;
 
         switch (type) {
             case "text-element": {
-                addTextElement(startingPoint, sizes.textarea);
+                addTextElement(getStartingPoint(sizes.textarea), sizes.textarea);
                 break;
             }
             case "image-element": {
@@ -56,7 +49,7 @@ export default function App() {
     const uploadAndAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             const imageFile = e.target.files[0];
-            addImageElement(imageFile, startingPoint, sizes.image);
+            addImageElement(imageFile, getStartingPoint(sizes.image), sizes.image);
             e.target.value = '';
         }
     };
@@ -86,28 +79,7 @@ export default function App() {
     return (
         <div className="container mx-auto py-12 px-4">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <div>
-                    <div className="w-full bg-black-50 flex items-center justify-center relative" style={{ height: CANVAS_HEIGHT }} ref={canvasRef}>
-                        {background && <img className="absolute inset-0 w-full h-full object-cover" src={URL.createObjectURL(background)} alt="background-image" />}
-                        {textElements.map((element) => (
-                            <TextArea 
-                                key={element.id} 
-                                id={element.id}
-                                position={element.position}
-                                size={element.size}
-                            />
-                        ))}
-                        {imageElements.map((element) => (
-                            <ImageElement 
-                                key={element.id} 
-                                id={element.id}
-                                position={element.position}
-                                size={element.size}
-                                image={element.options.image!}
-                            />
-                        ))}
-                    </div>
-                </div>
+                <Canvas ref={canvasRef} />
                 <div>
                     <div className="flex flex-col h-full">
                         <div className="flex items-center justify-between flex-wrap gap-4 pb-6 mb-8 border-b-2 border-white-primary">

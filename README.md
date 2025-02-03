@@ -2,7 +2,11 @@
 
 # Installation
 <br />
-`git clone https://github.com/filipknias/codibly-recruitment-task.git`
+```bash
+git clone https://github.com/filipknias/bytefine-recruitment-task.git
+```
 <br />
 <br />
-`npm install && npm run dev`
+```bash
+npm install && npm run dev
+```

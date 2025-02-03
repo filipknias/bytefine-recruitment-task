@@ -8,10 +8,10 @@ type CanvasStore = {
     elements: CanvasElement[];
     background: File|null;
     activeElementId: string | null;
-    addTextElement: (position?: Position, size?: Size) => void;
+    addTextElement: (position: Position, size: Size) => void;
     updateElementSize: (id: string, size: Size) => void;
     updateElementPosition: (id: string, position: Position) => void;
-    addImageElement: (image: File, position?: Position, size?: Size) => void;
+    addImageElement: (image: File, position: Position, size: Size) => void;
     setBackground: (background: File) => void;
     resetCanvas: () => void;
     setActiveElement: (id: string) => void;
@@ -24,7 +24,7 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
     background: null,
     activeElementId: null,
 
-    addTextElement: (position?: Position, size?: Size) => {
+    addTextElement: (position: Position, size: Size) => {
         const elementId = nanoid();
         set((state) => ({
             elements: [
@@ -71,7 +71,7 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
         }));
     },
 
-    addImageElement: (image: File, position?: Position, size?: Size) => {
+    addImageElement: (image: File, position: Position, size: Size) => {
         const elementId = nanoid();
         set((state) => ({
             elements: [

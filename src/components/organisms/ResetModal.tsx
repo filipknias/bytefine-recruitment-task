@@ -21,7 +21,7 @@ export default function ResetModal() {
                 <img className="h-6" src={ResetIcon} alt="reset-icon" />
             </button>
             {modalOpen && (
-                <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4">
+                <div data-testid="modal" className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center px-4">
                     <div className="bg-white rounded-lg w-full max-w-2xl mx-auto py-12 px-8 md:px-32 relative">
                         <button className="absolute top-8 right-8 cursor-pointer">
                             <img 

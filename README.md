@@ -1,7 +1,7 @@
 # Poster Editor
 
 ## Live preview
-Website is live: 
+Live website: https://poster-editor.netlify.app
 <br />
 
 ## Installation script

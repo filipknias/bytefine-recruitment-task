@@ -4,6 +4,7 @@ import { Rnd } from "react-rnd";
 import MoveIcon from "@/assets/move-icon.svg";
 import TrashIcon from "@/assets/trash-icon.svg";
 import useClickOutiside from "@/hooks/useClickOutside";
+import clsx from "clsx";
 
 type Props = {
     options: ComponentProps<typeof Rnd>;
@@ -36,7 +37,7 @@ export default function ResizableBox({ options, isActive, id, children }: Props)
             {...options}
         >
             <div 
-                className={`border-2 py-3 px-6 relative w-full h-full ${isActive ? "border-primary" : "border-transparent"}`} 
+                className={clsx('border-2 py-3 px-6 relative w-full h-full', isActive ? "border-primary" : "border-transparent")}
                 ref={wrapperRef} 
                 onClick={() => setActiveElement(id)}
             >

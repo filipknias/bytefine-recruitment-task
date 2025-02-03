@@ -1,10 +1,19 @@
 # Poster Editor
 
-# Installation
+## Live preview
+Website is live: 
 <br />
-`
-git clone https://github.com/filipknias/bytefine-recruitment-task.git
+
+## Installation script
 npm install && npm run dev
-`
 <br />
-<br />
+
+## Libraries
+- React 18
+- TailwindCSS 4
+- Zustand
+- React-Rnd
+- clsx
+- html2canvas
+- nanoid
+- React Testing Library

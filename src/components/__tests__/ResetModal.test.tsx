@@ -1,7 +1,6 @@
 import { render, fireEvent } from "@testing-library/react"
 import { test, describe } from 'vitest';
 import ResetModal from "@/components/organisms/ResetModal";
-import '@testing-library/jest-dom';
 
 describe("ResetModal", () => {
     test("renders component", () => {

@@ -11,4 +11,4 @@ export const sizes = {
     image: { width: 200, height: 200 }
 };
 
-export const CANVAS_HEIGHT = 948;
+export const CANVAS_HEIGHT = 950;

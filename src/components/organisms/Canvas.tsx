@@ -16,9 +16,11 @@ const Canvas = forwardRef<HTMLDivElement>((_props, ref) => {
         return elements.filter((element) => element.type === "image-element" && element.options.image)
     }, [elements]);
 
+    const isCanvasEmpty = elements.length === 0 && !background;
+
     return (
         <div className="w-full bg-black-50 flex items-center justify-center relative" style={{ height: CANVAS_HEIGHT }} ref={ref}>
-            {elements.length === 0 && !background && <img className="w-full h-full object-cover" src={EmptyCanvasImage} alt="empty-canvas" />}
+            {isCanvasEmpty && <img className="w-full h-full object-cover" src={EmptyCanvasImage} alt="empty-canvas" />}
             {background && <img className="absolute inset-0 w-full h-full object-cover" src={URL.createObjectURL(background)} alt="background-image" />}
             {textElements.map((element) => (
                 <TextArea 

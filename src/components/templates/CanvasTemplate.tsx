@@ -9,12 +9,11 @@ export default function CanvasTemplate() {
     const [canvasSize, setCanvasSize] = useState<Size>({ width: 0, height: 0 });
 
     useEffect(() => {
-        if (canvasRef.current) {
-            setCanvasSize({
-                width: canvasRef.current.offsetWidth,
-                height: canvasRef.current.offsetHeight
-            });
-        }
+        if (!canvasRef.current) return;
+        setCanvasSize({
+            width: canvasRef.current.offsetWidth,
+            height: canvasRef.current.offsetHeight
+        });
     }, [canvasRef.current]);
 
     const exportToPNG = async () => {

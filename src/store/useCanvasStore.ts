@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { nanoid } from 'nanoid';
 import { CanvasElement } from '@/types/store';
 import { Position, Size } from '@/types/shared';
-import { sizes } from '@/data/canvas';
 
 type CanvasStore = {
     elements: CanvasElement[];
@@ -32,8 +31,8 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
                 {
                     id: elementId,
                     type: "text-element",
-                    position: position || { x: 0, y: 0 },
-                    size: size || { width: sizes.textarea.width, height: sizes.textarea.height },
+                    position,
+                    size,
                     options: {},
                 }
             ],
@@ -79,8 +78,8 @@ export const useCanvasStore = create<CanvasStore>((set) => ({
                 {
                     id: elementId,
                     type: "image-element",
-                    position: position || { x: 0, y: 0 },
-                    size: size || { width: sizes.image.width, height: sizes.image.height },
+                    position,
+                    size,
                     options: { image },
                 }
             ],

@@ -2,7 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import Canvas from "../organisms/Canvas";
 import CanvasWorkspace from "../organisms/CanvasWorkspace";
 import { Size } from "@/types/shared";
-import html2canvas from "html2canvas";
+import { toPng } from 'html-to-image';
+import { EXPORT_IMAGE_HEIGHT, EXPORT_IMAGE_WIDTH } from "@/data/canvas";
 
 export default function CanvasTemplate() {
     const canvasRef = useRef<HTMLDivElement|null>(null);
@@ -18,8 +19,10 @@ export default function CanvasTemplate() {
 
     const exportToPNG = async () => {
         if (!canvasRef.current) return;
-        const canvas = await html2canvas(canvasRef.current);
-        const imageUrl = canvas.toDataURL();
+        const imageUrl = await toPng(canvasRef.current, { 
+            canvasWidth: EXPORT_IMAGE_WIDTH, 
+            canvasHeight: EXPORT_IMAGE_HEIGHT 
+        });
 
         const link = document.createElement('a');
         link.href = imageUrl;

@@ -41,10 +41,10 @@ export default function TextArea({ id, position, size }: Props) {
                     ))}
                 </div>
             )}
-            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-full flex items-center justify-center">
+            <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 h-full flex items-center justify-center py-4">
                 <textarea 
-                    className="font-bold text-display text-black-100 placeholder:text-black-100/25 text-center outline-none max-w-xs mx-auto resize-none"
-                    style={{ color: textColor }}
+                    className="font-bold text-display text-black-100 placeholder:text-black-100/25 text-center outline-none max-w-xs mx-auto resize-none break-words h-full overflow-y-hidden"
+                    style={{ color: textColor, overflowWrap: 'break-word', wordBreak: 'break-word' }}
                     placeholder="Type your text here"
                 ></textarea>
             </div>

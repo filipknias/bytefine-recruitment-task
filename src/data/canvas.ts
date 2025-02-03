@@ -12,3 +12,5 @@ export const sizes = {
 };
 
 export const CANVAS_HEIGHT = 950;
+export const EXPORT_IMAGE_WIDTH = 1080;
+export const EXPORT_IMAGE_HEIGHT = 1350;

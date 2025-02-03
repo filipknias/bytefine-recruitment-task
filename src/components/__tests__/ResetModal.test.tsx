@@ -1,4 +1,4 @@
-import { render, fireEvent } from "@testing-library/react"
+import { render, fireEvent, screen } from "@testing-library/react"
 import { test, describe } from 'vitest';
 import ResetModal from "@/components/organisms/ResetModal";
 
@@ -8,25 +8,25 @@ describe("ResetModal", () => {
     });
 
     test("should open modal after reset button click", () => {
-        const { getByText, getByTestId } = render(<ResetModal />);
+        render(<ResetModal />);
 
-        const resetButton = getByText('Reset');
+        const resetButton = screen.getByText('Reset');
         fireEvent.click(resetButton);
 
-        const modal = getByTestId('modal');
+        const modal = screen.getByTestId('modal');
 
         expect(modal).toBeInTheDocument();
     });
 
     test("should close modal after cancel button click", () => {
-        const { getByText, getByTestId } = render(<ResetModal />);
+        render(<ResetModal />);
 
-        const resetButton = getByText('Reset');
+        const resetButton = screen.getByText('Reset');
 
         fireEvent.click(resetButton);
 
-        const modal = getByTestId('modal');
-        const cancelButton = getByText('Cancel');
+        const modal = screen.getByTestId('modal');
+        const cancelButton = screen.getByText('Cancel');
 
         expect(modal).toBeInTheDocument();
 

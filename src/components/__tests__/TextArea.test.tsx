@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { test, describe } from 'vitest';
 import TextArea from "@/components/organisms/TextArea";
 import { canvasTextColors } from "@/data/canvas";
@@ -21,9 +21,9 @@ describe("TextArea", () => {
             size: { width: 100, height: 100 }
         };
 
-        const { getByRole } = render(<TextArea {...props} />);
+        render(<TextArea {...props} />);
 
-        const textarea = getByRole('textbox');
+        const textarea = screen.getByRole('textbox');
 
         expect(textarea).toBeInTheDocument()
         expect(textarea).toHaveStyle({ color: canvasTextColors[0] });
